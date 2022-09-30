@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+    <!--Выводим уже созданные записи-->
+    {% for wish in wishes %}
+        <p class='success'>
+            <form method="POST" enctype="multipart/form-data" action="wish-remove/">
+            {% csrf_token %}
+                <a class="btn-link" href="/pie/?wish={{ wish }}">{{ wish }}</a>
+                <button type="submit" name="delete" value="{{wish}}">Удалить</button>
+            </form>
+        </p>
+
+{% endfor %}
+
+
+    <!-- Устанавливаем multipart/form-data -->
+    <form method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <!-- Выводим каждое поле формы в отдельном параграфе -->
+        {{ form }}
+        <button type="submit">Добавить</button>
+    </form>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h3>{{ wish }}</h3>
+<div>
+    <p>
+        КАРТИНКА
+        <IMG src={{image.url}}>
+    </p>
+</div>
+
+<div>
+    <p>
+        <h5>
+            ОПИСАНИЕ
+        </h5>
+    <p>
+        <h2>{{description}}</h2>
+    </p>
+</div>
+{% endblock %}
