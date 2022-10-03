@@ -1,7 +1,12 @@
-from django.shortcuts import render, redirect
-# from django.views.generic.list import ListView
+from django.shortcuts import render, redirect, HttpResponse
+
 from .models import Wish
-from .forms import WishesForm
+from .forms import (
+    WishesForm,
+    DescriptionForm,
+    ImageForm,
+    TestImageForm,
+)
 
 
 def devhome_view(request):
@@ -26,54 +31,88 @@ def wish_create_view(request):
             wish_obj = form.save(commit=False)
             wish_obj.user = request.user
             wish_obj.save()
-            form.save_m2m()
 
     context['form'] = form
     context['wishes'] = wishes
     return render(request, 'wishlist/wish_create.html', context=context)
 
 
-def description_view(request):
+def description_view(request, id: int):
     """Вызов описания конкретного пожелания-заметки"""
     context = {}
-    if request.method == 'GET':
-        wish = request.GET.get('wish')
-        wish_object = Wish.objects.all().filter(wish, user_id=request.user.pk)
-        description = wish_object[0].description
-        image = wish_object[0].image
-        context['wish'] = wish
-        context['description'] = description
-        context['image'] = image
-
+    form = DescriptionForm
+    wish_object = Wish.objects.all().filter(pk=id)
+    if request.method == "POST":
+        form = DescriptionForm(request.POST, instance=request.user)
+        if form.is_valid():
+            Wish.objects.filter(pk=id).update(description=form.cleaned_data['description'])
+            form.save()
+    wish_name = wish_object[0].wish
+    description = wish_object[0].description
+    image = wish_object[0].image
+    context['wish'] = wish_name
+    context['description'] = description
+    context['image'] = image
+    context['form'] = form
     return render(request, 'wishlist/description.html', context)
 
 
 def remove_wish(request):
     """Удаление заметки из вишлиста"""
-    # context = {}
     if request.method == "POST":
-        wish_object = Wish.objects.all().filter(wish=request.POST['delete'], user_id=request.user.pk)
+        wish_object = Wish.objects.get(pk=request.POST['delete'])
         wish_object.delete()
     return redirect('/pie/')
 
 
-def _add_description_image(self, id: [int]):
+def add_description_image_view(request, id: int):
     """Добавление изображения в описание заметки"""
-    pass
+    context = {}
+    wish_object = Wish.objects.get(pk=id)
+    image = wish_object.image
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            wish_object.image = form.cleaned_data['image']
+            wish_object.save()
+            form.save()
+            context['image'] = image
+            context['form'] = form
+    else:
+        form = ImageForm(request.POST, request.FILES, instance=request.user)
+        context['form'] = form
+        context['image'] = image
+        context['id'] = id
+    return render(request, 'wishlist/add_image.html', context)
 
 
-def _add_description_text(description: [str]):
-    """Добавление описания к конкретной заметке"""
-    pass
+def add_image_view(request):
+    if request.method == "POST":
+        form = TestImageForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            img = Wish.objects.all().filter(user_id=request.user)
+            return render(request, 'test.html', {'form': form, 'img': img})
+    else:
+        form = TestImageForm()
+        img = Wish.objects.all().filter(user_id=request.user)
+        return render(request, 'test.html', {'form': form, 'img': img})
+    return HttpResponse('vse xyinya')
 
 
-def _remove_description_image():
+def remove_description_image(request, id: int):
     """Удаление картинки из описания заметки"""
-    pass
+    if request.method == "POST":
+        wish_object = Wish.objects.get(pk=request.POST['delete'])
+        wish_object.image.delete()
+    return redirect('/pie/')
 
 
-def _remove_description_text():
+def remove_description_text(request):
     """Удаление текста из описания заметки"""
-    pass
+    if request.method == "POST":
+        wish_object = Wish.objects.get(pk=request.POST['delete'])
+        wish_object.description.delete()
+    return redirect('/pie/')
 
 
