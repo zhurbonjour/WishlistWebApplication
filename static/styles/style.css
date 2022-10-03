@@ -129,6 +129,34 @@ body {
     flex: 1;
 }
 
+/* custom checkbox */
+.wishlist li input {
+    opacity: 0;
+    position: absolute;
+    height: 0;
+    width: 0;
+}
+
+.wishlist li label:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+
+    position: relative;
+    top: 3px;
+    border: 1px solid #ccc;
+}
+
+.wishlist li input:checked + label:before {
+    background-image: url('../images/checked.svg');
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+/* end custom checkbox */
+
 .wishlist input:checked + label {
     text-decoration: line-through ;
 }
