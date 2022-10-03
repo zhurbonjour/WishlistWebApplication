@@ -119,6 +119,14 @@ body {
 .wishlist li {
     list-style-type: none;
     margin-bottom: .3rem;
+
+    max-width: 550px;
+    display: flex;
+    align-items: center;
+}
+
+.wishlist li label {
+    flex: 1;
 }
 
 .wishlist input:checked + label {
@@ -206,6 +214,10 @@ label {
     display: block;
 }
 
+.ml-1 {
+    margin-left: 1rem;
+}
+
 .mb-1 {
     display: block;
     margin-bottom: 1rem;
@@ -219,6 +231,10 @@ label {
 h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     color: #484848;
+}
+
+.d-flex {
+    display: flex;
 }
 
 /* end common styles */
