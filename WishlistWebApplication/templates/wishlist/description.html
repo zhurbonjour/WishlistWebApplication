@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+
 {% block content%}
 <h3>{{ wish }}</h3>
-<div>
-    <p>
-        КАРТИНКА
-        <IMG src={{image.url}}>
-    </p>
-</div>
 
 <div>
     <p>
@@ -16,6 +13,24 @@
         </h5>
     <p>
         <h2>{{description}}</h2>
+        <form method="POST" enctype="multipart/form-data" autofocus>
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Добавить</button>
+        </form>
+    </p>
+</div>
+
+<div>
+    <p>
+        <!-- Вывод фотографии пользователя -->
+
+        {% if image %}
+        <IMG src={{image.url}}>
+        {% endif %}
+
+        <button onclick="location.href = 'add-image/';">Изменить пикчу</button>
+
     </p>
 </div>
 {% endblock %}

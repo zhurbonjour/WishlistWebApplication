@@ -126,3 +126,4 @@ GitHub.sublime-settings
 /WishlistWebApplication/apps/account/migrations/
 /WishlistWebApplication/apps/friend/migrations/
 /WishlistWebApplication/apps/wishlist/migrations/
+/static_cdn/admin/

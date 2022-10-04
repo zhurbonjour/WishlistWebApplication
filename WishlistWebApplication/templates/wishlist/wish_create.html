@@ -7,16 +7,15 @@
         <p class='success'>
             <form method="POST" enctype="multipart/form-data" action="wish-remove/">
             {% csrf_token %}
-                <a class="btn-link" href="/pie/?wish={{ wish }}">{{ wish }}</a>
-                <button type="submit" name="delete" value="{{wish}}">Удалить</button>
+                <a class="btn-link" name="description" href="/pie/{{wish.id}}/">{{ wish.wish }}</a>
+                <button type="submit" name="delete" value="{{wish.id}}">Удалить</button>
             </form>
         </p>
-
-{% endfor %}
+    {% endfor %}
 
 
     <!-- Устанавливаем multipart/form-data -->
-    <form method="POST" enctype="multipart/form-data" >
+    <form method="POST" enctype="multipart/form-data" autofocus>
         {% csrf_token %}
         <!-- Выводим каждое поле формы в отдельном параграфе -->
         {{ form }}
