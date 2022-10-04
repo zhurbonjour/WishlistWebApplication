@@ -30,7 +30,7 @@ def get_random_profile_image():
     номер картирки.jpg
     """
 
-    listofpics = ['1.jpg', '2.jpg']
+    listofpics = ['man.jpg', 'woman.jpg']
     # itemlist = []
     # for pth in listofpics:
     #     imgext = pth.split("fundogs/")

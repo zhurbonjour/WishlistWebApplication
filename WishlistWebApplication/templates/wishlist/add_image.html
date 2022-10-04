@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<p>
+        {% if image %}
+        <IMG src={{image.url}}>
+        {% endif %}
+</p>
+        <!-- Форма вставки фотографии от пользователя -->
+<p>
+        <form method="POST" enctype="multipart/form-data" autofocus>
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Добавить</button>
+        </form>
+</p>
+        <!-- Конец формы вставки фотографии -->
+
+        <!-- Кнопка удаления фотографии пользователя -->
+<p>
+        <form method="POST" enctype="multipart/form-data" action="/pie/{{id}}/remove-image/">
+            {% csrf_token %}
+            <button type="submit" name="delete" value="{{id}}">Удалить</button>
+        </form>
+</p>
+        <!-- Конец кнопки удаления фотографии пользователя -->
+
+{% endblock %}

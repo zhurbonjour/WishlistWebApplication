@@ -32,12 +32,12 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
-def get_profile_image_filepath(self):
+def get_profile_image_filepath(self, *args, **kwargs):
     return f'profile_images/{self.pk}/{"profile_image.png"}'
 
 
 def get_default_profile_image():
-    return f'wlwap/fundogs/{get_random_profile_image()}'
+    return f'profile_images/default/{get_random_profile_image}'
 
 
 class Account(AbstractBaseUser):
