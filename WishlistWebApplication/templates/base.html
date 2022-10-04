@@ -61,38 +61,38 @@
         <h1>Мой Wishlist</h1>
         <form action="" class="wishlist">
             <ul>
+                <!-- TODO: здесь вывод списка через цикл -->
                 <li>
-                    <input type="checkbox" name="test" id="test">
-                    <label for="test">Оливки из Магнита</label>
+                    <span>Оливки из Магнита</span>
+
                     <div class="d-flex">
-                        <button class="btn ml-1">
+                        <!-- TODO: ссылка на редактирование желания формата site.ru/wishes/:id/edit -->
+                        <a href="" class="ml-1">
                             <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </button>
-                        <button class="btn ml-1">
+                        </a>
+                        <button type="button" class="btn ml-1">
                             <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
                         </button>
                     </div>
                 </li>
                 <li>
-                    <input type="checkbox" name="test2" id="test2">
-                    <label for="test2">Прикиньтесь моим другом (хотя бы на день)</label>
+                    <span>Прикиньтесь моим другом (хотя бы на день)</span>
                     <div class="d-flex">
-                        <button class="btn ml-1">
+                        <a href="" class="ml-1">
                             <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </button>
-                        <button class="btn ml-1">
+                        </a>
+                        <button type="button" class="btn ml-1">
                             <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
                         </button>
                     </div>
                 </li>
                 <li>
-                    <input type="checkbox" name="test" id="test3">
-                    <label for="test3">Новый диван</label>
+                    <span>Новый диван</span>
                     <div class="d-flex">
-                        <button class="btn ml-1">
+                        <a href="" class="ml-1">
                             <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </button>
-                        <button class="btn ml-1">
+                        </a>
+                        <button type="button" class="btn ml-1">
                             <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
                         </button>
                     </div>
@@ -107,28 +107,6 @@
         </form>
         {% block content %}
         {% endblock content %}
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla excepturi corrupti molestiae iusto saepe,
-            delectus esse recusandae ut, quae impedit, quia est!
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla excepturi corrupti molestiae iusto saepe,
-            delectus esse recusandae ut, quae impedit, quia est!
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla excepturi corrupti molestiae iusto saepe,
-            delectus esse recusandae ut, quae impedit, quia est!
-        </p>
-
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla excepturi corrupti molestiae iusto saepe,
-            delectus esse recusandae ut, quae impedit, quia est!
-        </p>
-
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla excepturi corrupti molestiae iusto saepe,
-            delectus esse recusandae ut, quae impedit, quia est!
-        </p>
     </div>
 </div>
 
