@@ -86,18 +86,24 @@ def add_description_image_view(request, id: int):
     return render(request, 'wishlist/add_image.html', context)
 
 
+# test definition
 def add_image_view(request):
     if request.method == "POST":
-        form = TestImageForm(request.POST, instance=request.user)
+        form = TestImageForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.user_id = request.user.id
+            obj.save()
             img = Wish.objects.all().filter(user_id=request.user)
             return render(request, 'test.html', {'form': form, 'img': img})
     else:
-        form = TestImageForm()
-        img = Wish.objects.all().filter(user_id=request.user)
-        return render(request, 'test.html', {'form': form, 'img': img})
-    return HttpResponse('vse xyinya')
+        form = TestImageForm(initial={
+            'wish': request.POST['wish'],
+            'description': request.POST['description'],
+            'image': request.FILES
+        })
+        return render(request, 'test.html', {'form': form})
+    return HttpResponse('vse snova')
 
 
 def remove_description_image(request, id: int):
