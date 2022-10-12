@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!--
+TODO	Страница со списком друзей пользователя.
+TODO	Здесь так же, как и на странице поиска, карточки пользователей
+TODO	в том же стиле. Отсюда можно перейти на страницу друга
+TODO
+TODO	Ссылки в виде тегов Джанго, логику тегов Джанго необходимо сохранить
+TODO
+-->
+
+<style type="text/css">
+	.profile-image{
+		max-height: 100px;
+		max-width: 100px;
+	}
+	.profile-image{
+		border-radius: 12px;
+	}
+	.card{
+		border-radius: 12px;
+	}
+	.friends-text{
+		color: #000;
+		font-weight: 500;
+	}
+	.friends-text-container{
+		border: 1px solid #cccccc;
+		border-radius: 12px;
+	}
+	.friends-btn:hover {
+		background-color: #bfbfbf;
+		border-color: #bfbfbf;
+	}
+	.dropdown-toggle::after { 
+		content: none; 
+	}
+	.profile-link{
+		color: #000;
+	}
+	.checkmark-icon{
+		color: green;
+	}
+	.cancel-icon{
+		color: red;
+	}
+	
+</style>
+
+<div class="container">
+	<div class="card p-2">
+
+		{% if friends %}
+		<div class="d-flex flex-row flex-wrap">
+		{% for friend in friends %}
+		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
+			<a class="profile-link" href="{% url 'account:view' user_id=friend.0.pk %}">
+				<div class="card-image m-2">
+					<img class="img-fluid profile-image" src="{{friend.0.profile_image.url}}" alt="">
+				</div>
+			</a>
+			
+			<div class="card-center px-2">
+				<a class="profile-link" href="{% url 'account:view' user_id=friend.0.pk %}">
+					<h4 class="card-title">{{friend.0.username|truncatechars:50}}</h4>
+				</a>
+
+				
+			</div>
+			
+			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
+				{% if friend.1 %}
+					<div class="d-flex flex-row friends-text-container p-3">
+						<p class="friends-text m-auto">
+							Друг
+						</p>
+						</span>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		{% if forloop.counter|divisibleby:2 %}
+		</div><div class="d-flex flex-row flex-wrap">
+		{% endif %}
+		
+		{% endfor %}
+		
+		{% else %} <!-- If no friends -->
+		<div>
+			<p style="text-align:center">
+				Вы пока не добавили ни одного друга.
+			</p>
+			<p style="text-align:center">
+				Воспользуйтесь строкой поиска ниже, чтобы найти друзей и отправить им заявку!
+			</p>
+			<p style="text-align:center">
+				Когда ваш друг примет заявку, вы сможете видеть список его в своем списке друзей и просматривать его список желаний.
+			</p>
+		</div>
+		<div>
+			<form style="text-align:center" action="{% url 'search' %}" method="get">
+				<p>
+				  <input type="text" name="q" placeholder="username">
+				  <input type="submit" value="Найти">
+				</p>
+			</form>
+		</div>
+		{% endif %}
+		</div>
+	</div>
+	
+</div>
+
+{% endblock content %}

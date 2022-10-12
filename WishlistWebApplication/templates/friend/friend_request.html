@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!--
+TODO
+TODO	Страница с выводом пользоватей, отправивших запрос на добавление в друзья.
+TODO	Здесь мной прикручен jquery, чтобы работали ajax запросы при нажатии на клавиши
+TODO	одобрения или отклонения заявки в друзья. Не знаю, на сколько это корректно,
+TODO	но по-моему норм))
+TODO
+TODO	Теги необходимо сохранить. Да, я это везде напишу. Я не хочу снова их
+TODO	везде расставлять, поэтому просто напомню первую заповедь относительно
+TODO	этих тегов: не убий.
+TODO
+-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+	.profile-image{
+		max-height: 100px;
+		max-width: 100px;
+	}
+	.profile-image{
+		border-radius: 12px;
+	}
+	.card{
+		border-radius: 12px;
+	}
+	.dropdown-toggle::after {
+		content: none;
+	}
+	.profile-link{
+		color: #000;
+	}
+	.material-icons{
+		font-size: 30px;
+	}
+	.material-icons:hover{
+		cursor: pointer;
+	}
+	.confirm-friend-request{
+		color: green;
+	}
+	.confirm-friend-request:hover {
+		opacity: 0.3;
+	}
+	.decline-friend-request:hover {
+		opacity: 0.3;
+	}
+	.decline-friend-request{
+		color: red;
+	}
+</style>
+
+<div class="container">
+	<div class="card p-2">
+
+		{% if friend_requests %}
+		<div>
+		{% for request in friend_requests %}
+		<div>
+			<a href="{% url 'account:view' user_id=request.sender.id %}">
+				<div >
+					<img src="{{request.sender.profile_image.url}}" alt="">
+				</div>
+			</a>
+			<a href="{% url 'account:view' user_id=request.sender.id %}">
+				<div>
+					<h4>{{request.sender.username}}</h4>
+				</div>
+			</a>
+			<div>
+	  			<span id="id_cancel_{{request.sender.id}}"
+					  class="decline-friend-request material-icons p-1"
+					  onclick='triggerDeclineFriendRequest("{{request.id}}")'>
+					cancel
+				</span>
+	  			<span id="id_confirm_{{request.sender.id}}"
+					  class="confirm-friend-request material-icons p-1"
+					  onclick='triggerAcceptFriendRequest("{{request.id}}")'>
+					accept
+				</span>
+			</div>
+		</div>
+		{% if forloop.counter|divisibleby:2 %}
+		</div><div class="d-flex flex-row flex-wrap">
+		{% endif %}
+
+		{% endfor %}
+
+		{% else %} <!-- If no friends -->
+		<div>
+			<p style="text-align:center">
+				У вас нет новых заявок на добавление в список друзей.
+			</p>
+			<p style="text-align:center">
+				Воспользуйтесь строкой поиска ниже, чтобы найти друзей и отправить им заявку!
+			</p>
+			<p style="text-align:center">
+				Когда ваш друг примет заявку, вы сможете видеть его в своем списке друзей и просматривать его список желаний.
+			</p>
+		</div>
+		<div>
+		  <form style="text-align:center" action="{% url 'search' %}" method="get">
+			<p>
+			  <input type="text" name="q" placeholder="username">
+			  <input type="submit" value="Найти">
+			</p>
+		  </form>
+		</div>
+		{% endif %}
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	function onFriendRequestAccepted(){
+		location.reload();
+	}
+
+	function onFriendRequestDeclined(){
+		location.reload();
+	}
+
+	function triggerAcceptFriendRequest(friend_request_id){
+		acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
+	}
+
+	function triggerDeclineFriendRequest(friend_request_id){
+		declineFriendRequest(friend_request_id, onFriendRequestDeclined)
+	}
+</script>
+
+{% include 'friend/snippets/accept_friend_request.html' %}
+{% include 'friend/snippets/decline_friend_request.html' %}
+
+
+{% endblock content %}

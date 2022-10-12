@@ -3,28 +3,26 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import (
     wish_create_view,
-    devhome_view,
-    remove_wish,
+    wish_remove,
     description_view,
-    add_description_image_view,
-    remove_description_image,
-    remove_description_text,
-    add_image_view
-)
+    description_remove_text,
+    wishlist_view
+    )
 
+
+app_name = 'wishlist'
 
 urlpatterns = [
-    path('', wish_create_view),
-    path('test/', add_image_view),
-    path('wish-remove/', remove_wish),
-    path('<int:id>/', description_view),
-    path('<int:id>/add-image/', add_description_image_view), # ссылка на форму добавления фотографии, ее кроп
-    path('<int:id>/remove-image/', remove_description_image), # кнопка удаления фотографии
-    path('<int:id>/remove-description/', remove_description_text), # кнопка удаления описания
-    path('home/', devhome_view),
+    path('list/<user_id>', wish_create_view, name='list'),
+    path('wishlist/<user_id>', wishlist_view, name='friend_wishlist'),
+    path('wish-remove/', wish_remove, name='remove_wish'),
+    path('<int:id>/', description_view, name='description'),
+    path('<int:id>/remove-description/', description_remove_text, name='remove_description_text'),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
 

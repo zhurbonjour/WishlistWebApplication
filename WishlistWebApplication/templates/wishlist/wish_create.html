@@ -1,28 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content%}
 
-    <!--Выводим уже созданные записи-->
-    {% for wish in wishes %}
-        <p class='success'>
-            <form method="POST" enctype="multipart/form-data" action="wish-remove/">
+<!--
+TODO
+TODO    Страница создания вишей. Да, ты уже оформлял, но у меня были проблемки
+TODO    в картинку-ссылку на описание пришлось добавить стиль с паддинг-топ 5 пх,
+TODO    потому что у меня всё почему-то съехало. Надо проверить
+TODO
+TODO    чуть не забыл. ТЕГИ НАДО СОХРАНИТЬ! фух
+TODO
+-->
+
+<div class="content__inner">
+        <h1>Мой желания</h1>
+        <!-- Вывод списка через цикл -->
+        <div class="wishlist">
+        {% for wish in wishes %}
+                <li>
+                    <span>{{wish.wish}}</span>
+                        <div class="d-flex">
+                            <!-- Ссылка на редактирование желания формата site.ru/wishes/:id/edit -->
+                            <a href="{% url 'wishes:description' id=wish.id %}" class="ml-1">
+                                <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
+                            </a>
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'wishes:remove_wish' %}">
+                            {% csrf_token %}
+                                <button type="submit" class="btn ml-1" name="delete" value="{{wish.id}}">
+
+                                    <!--todo вот тут нюансики-->
+                                    <img style="padding-top: 5px" width='15px' src="{% static 'images/close.svg' %}" alt="pen">
+                                </button>
+                            </form>
+                        </div>
+                </li>
+        {% endfor %}
+        </div>
+        <!-- Форма отправки желаний в бд -->
+        <form method="post" enctype="multipart/form-data" action="" class="mt-1">
             {% csrf_token %}
-                <a class="btn-link" name="description" href="/pie/{{wish.id}}/">{{ wish.wish }}</a>
-                <button type="submit" name="delete" value="{{wish.id}}">Удалить</button>
-            </form>
-        </p>
-    {% endfor %}
-
-
-    <!-- Устанавливаем multipart/form-data -->
-    <form method="POST" enctype="multipart/form-data" autofocus>
-        {% csrf_token %}
-        <!-- Выводим каждое поле формы в отдельном параграфе -->
-        {{ form }}
-        <button type="submit">Добавить</button>
-    </form>
-
-
-
-
+            <h4 class="m-0">Добавить желание</h4>
+            {{ form }}
+            <button class="btn btn-primary mt-1">Добавить</button>
+        </form>
+    </div>
 {% endblock %}
