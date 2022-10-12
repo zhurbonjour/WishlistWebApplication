@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!--
+TODO
+TODO    Страница отображения вишей для друзей
+TODO    Что тут комменировать, не знаю
+TODO    Теги надо сохранить, вот
+TODO
+-->
+
+    {% if request.user.is_authenticated %}
+
+        {% if is_friend %}
+            <div class="content__inner">
+                <h1>Желания {{ username }}</h1>
+                {% for wish in wishes %}
+                        <li>
+                            <span>{{wish.wish}}</span>
+                                <div class="d-flex">
+                                    <!-- Ссылка на описание желаний друга -->
+                                    <a href="{% url 'wishes:description' id=wish.id %}" class="ml-1">
+                                        <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
+                                    </a>
+                                </div>
+                        </li>
+                        {% endfor %}
+
+        {% endif %}
+
+    {% endif %}
+
+{% endblock %}

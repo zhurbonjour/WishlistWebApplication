@@ -15,21 +15,18 @@
 <div class="bg">
     <div class="bg__content">
         <div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Elon_Musk_Royal_Society_%28crop2%29.jpg/274px-Elon_Musk_Royal_Society_%28crop2%29.jpg"
+            <img src="{{request.user.profile_image.url}}"
                  alt="avatar"
                  class="img-wrapper">
-            <div class="bg__content__username">User Name</div>
+            <div class="bg__content__username">{{request.user.username}}</div>
         </div>
         <div class="bg__content__my">
-            <a href="" class="link-remove-default">Мой Wishlist</a> <br/>
-            <a href="" class="link-remove-default">Мои друзья</a>
+            <a href="{% url 'wishes:list' user_id=request.user.id %}" class="link-remove-default">Список желаний</a> <br/>
+            <a href="{% url 'account:view' user_id=request.user.id %}" class="link-remove-default">Аккаунт</a> <br/>
+            <a href="{% url 'friends:list' user_id=request.user.id %}" class="link-remove-default">Друзья</a>
         </div>
         <div class="bg__exit-and-search">
-            <a href="" class="mb-1 link-remove-default">
-                Поиск
-                <img src="{% static 'images/search.svg' %}" alt="search">
-            </a>
-            <a href="" class="link-remove-default">
+            <a href="/logout/" class="link-remove-default">
                 Выход
                 <img src="{% static 'images/exit.svg' %}" alt="exit">
             </a>
@@ -56,57 +53,10 @@
             </button>
         </div>
     </header>
-    <div class="content__inner">
-        <h1>Мой Wishlist</h1>
-        <form action="" class="wishlist">
-            <ul>
-                <!-- TODO: здесь вывод списка через цикл -->
-                <li>
-                    <span>Оливки из Магнита</span>
+    <!--Content blocks here i think-->
+    {% block content %}
 
-                    <div class="d-flex">
-                        <!-- TODO: ссылка на редактирование желания формата site.ru/wishes/:id/edit -->
-                        <a href="" class="ml-1">
-                            <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </a>
-                        <button type="button" class="btn ml-1">
-                            <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
-                        </button>
-                    </div>
-                </li>
-                <li>
-                    <span>Прикиньтесь моим другом (хотя бы на день)</span>
-                    <div class="d-flex">
-                        <a href="" class="ml-1">
-                            <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </a>
-                        <button type="button" class="btn ml-1">
-                            <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
-                        </button>
-                    </div>
-                </li>
-                <li>
-                    <span>Новый диван</span>
-                    <div class="d-flex">
-                        <a href="" class="ml-1">
-                            <img width='25px' src="{% static 'images/pen.svg' %}" alt="pen">
-                        </a>
-                        <button type="button" class="btn ml-1">
-                            <img width='15px' src="{% static 'images/close.svg' %}" alt="pen">
-                        </button>
-                    </div>
-                </li>
-            </ul>
-            <button class="btn btn-success mt-1">Сохранить</button>
-        </form>
-        <form action="" class="mt-1">
-            <h4 class="m-0">Добавить желание</h4>
-            <input type="text" class="mt-1" placeholder="Подгони по братски...">
-            <button class="btn btn-primary mt-1">Добавить</button>
-        </form>
-        {% block content %}
-        {% endblock content %}
-    </div>
+    {% endblock content %}
 </div>
 
 </body>

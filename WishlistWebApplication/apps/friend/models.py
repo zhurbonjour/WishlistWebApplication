@@ -9,7 +9,7 @@ class FriendList(models.Model):
     friends = models.ManyToManyField('account.Account', blank=True, related_name="friends")
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 #     refactor next functions later to business logic layer
     def add_friend(self, account):
@@ -24,7 +24,7 @@ class FriendList(models.Model):
             self.friends.remove(account)
 
     def unfriend(self, removee):
-        """Дружба закончилась, удалям из друзей"""
+        """Дружба закончилась, удаляем из друзей"""
         remover_friends_list = self
         remover_friends_list.remove_friend(removee)
         friend_list = FriendList.objects.get(user=removee)
@@ -58,10 +58,10 @@ class FriendRequest(models.Model):
         Принятие поступившей заявки в друзья
         и обновление списков друзей обоих
         """
-        receiver_friends_list = FriendList.objects.get(self=self.receiver)
+        receiver_friends_list = FriendList.objects.get(user=self.receiver)
         if receiver_friends_list:
             receiver_friends_list.add_friend(self.sender)
-            sender_friends_list = FriendList.objects.get(self=self.sender)
+            sender_friends_list = FriendList.objects.get(user=self.sender)
             if sender_friends_list:
                 sender_friends_list.add_friend(self.receiver)
                 self.is_active = False

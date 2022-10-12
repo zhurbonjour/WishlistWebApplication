@@ -15,7 +15,7 @@ class Wish(models.Model):
     wish = models.CharField(max_length=100, name='wish')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=get_wish_image_filepath,
                               null=True,
                               blank=True,

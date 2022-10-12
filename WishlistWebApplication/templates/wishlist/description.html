@@ -1,36 +1,68 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-
 {% block content%}
-<h3>{{ wish }}</h3>
+<!--
+TODO
+TODO    Страница с выводом описаний для каждой конкретной заметки.
+TODO	Я тут немного навертел, надо сделать красиво
+TODO    Есть кнопка возврата к вишлисту, ее нужно оформить
+TODO    Я ее просто поставил, но её отображение с точки зрения дизайна
+TODO    полностью вверяю тебе
+TODO
+TODO    Ну и как везде, надо сохранить теги логики Джанго, теги ссылок и так далее
+-->
 
-<div>
-    <p>
-        <h5>
-            ОПИСАНИЕ
-        </h5>
-    <p>
-        <h2>{{description}}</h2>
-        <form method="POST" enctype="multipart/form-data" autofocus>
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Добавить</button>
+<div class="content__inner">
+        <h1>{{wish}}</h1>
+        <!-- Вывод списка через цикл -->
+        <div class="d-flex">
+            <div class="wishlist">
+                {% if description %}
+                <span>{{description}}</span>
+                    {% if is_self %}
+                        <form method="POST" enctype="multipart/form-data" action="remove-description/">
+                            {% csrf_token %}
+                            <button type="submit" class="btn ml-1" name="delete" value="{{id}}">
+                                <img style="padding-top: 5px" width='15px' src="{% static 'images/close.svg' %}" alt="pen">
+                            </button>
+                        </form>
+                    {% endif %}
+                {% else %}
+
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Форма отправки желаний в бд -->
+    {% if is_self %}
+        <form method="post" enctype="multipart/form-data" action="" class="mt-1">
+            {% csrf_token %}
+            <h4 class="m-0">
+                {% if description %}
+                    Редактировать описание
+                {% else %}
+                    Добавить описание
+                {% endif %}
+            </h4>
+            {{ form }}
+            <button class="btn btn-primary mt-1">Добавить</button>
         </form>
-    </p>
-</div>
+        <div class="mt-1">
+            <a href="{% url 'wishes:list' user_id=request.user.id %}" class="ml-1">
+                <button class="btn btn-primary mt-1">Вернуться к списку</button>
+            </a>
+        </div>
+            {% endif %}
 
-<div>
-    <p>
-        <!-- Вывод фотографии пользователя -->
+            {% if is_friend %}
 
-        {% if image %}
-        <IMG src={{image.url}}>
-        {% endif %}
+            <div class="mt-1">
+                <a href="{% url 'wishes:friend_wishlist' user_id=user_id %}" class="ml-1">
+                    <button class="btn btn-primary mt-1">Вернуться к списку</button>
+            </a>
+        </div>
+                {% endif %}
 
-        <button onclick="location.href = 'add-image/';">Изменить пикчу</button>
-
-    </p>
-</div>
+    </div>
 {% endblock %}

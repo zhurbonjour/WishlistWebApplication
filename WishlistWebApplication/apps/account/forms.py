@@ -48,15 +48,7 @@ class AccountUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('username', 'email', 'profile_image', 'hide_email' )
-
-    def clean_email(self):
-        email = self.cleaned_data['email'].lower()
-        try:
-            account = Account.objects.exclude(pk=self.instance.pk).get(email=email)
-        except Account.DoesNotExist:
-            return email
-        raise forms.ValidationError('Email "%s" is already in use.' % account)
+        fields = ('username', 'name', 'surname', 'bio', 'profile_image')
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -69,9 +61,9 @@ class AccountUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         account = super(AccountUpdateForm, self).save(commit=False)
         account.username = self.cleaned_data['username']
-        account.email = self.cleaned_data['email'].lower()
+        account.name = self.cleaned_data['name']
+        account.surname = self.cleaned_data['surname']
         account.profile_image = self.cleaned_data['profile_image']
-        account.hide_email = self.cleaned_data['hide_email']
         if commit:
             account.save()
         return account

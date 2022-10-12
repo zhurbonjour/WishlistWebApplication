@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!--
+TODO
+TODO	Тут пояснения излишни, я думаю
+TODO
+TODO	Теги Джанго необходимо сохранить!
+TODO	Он тут один
+TODO
+-->
+
+<div>
+    <p style="text-align:center">
+        Вы пока не добавили ни одного друга.
+    </p>
+    <p style="text-align:center">
+        Воспользуйтесь строкой поиска ниже, чтобы найти друзей и отправить им заявку!
+    </p>
+    <p style="text-align:center">
+        Когда ваш друг примет заявку, вы сможете видеть список его в своем списке друзей и просматривать его список желаний.
+    </p>
+</div>
+<div>
+  <form style="text-align:center" action="{% url 'search' %}" method="get">
+    <p>
+      <input type="text" name="q" placeholder="username">
+      <input type="submit" value="Найти">
+    </p>
+  </form>
+</div>
+
+{% endblock %}
